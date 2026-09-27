@@ -1,0 +1,84 @@
+\subsection{Application-level predictive evaluation on BreaKHis}
+\label{subsec:breakhis-predictive}
+
+We complement the controlled synthetic experiments with a real-image
+classification experiment on the BreaKHis breast histopathology dataset.
+The analysis is restricted to the 40$\times$ magnification in
+order to avoid confounding the representation comparison with changes in
+microscopic scale. The selected subset contains 1995 RGB images from
+81 patients.
+
+\input{table_dataset.tex}
+
+Each image is converted to a scalar hematoxylin representation by H\&E
+stain deconvolution. A Gaussian filter with fixed standard deviation
+$\sigma=1$ pixels is applied, after which the image is
+quantized into 5 levels by multi-Otsu thresholding. The
+4-connected components of equal quantized value define the segmentation
+used by all compared representations. Neither the segmentation procedure
+nor any of its parameters uses the benign/malignant labels.
+
+For every segmentation we compute the segmentation-size baseline, the
+ordinary RAG, the regional contact multigraph, the HIG without cut
+augmentation, the binary-incidence HIG, and the full HIG. The latter
+includes the typed generator counts, normalized generator statistics,
+regional-hole descriptors, incidence densities, integer incidence
+multiplicities, and graph-level quantities described in
+Section~\ref{subsec:hig-descriptors}. The cellular quantity
+$\chi_{\mathrm{cell}}$ is excluded from the predictor because it is
+identically equal to $2$.
+
+All 1995 processed images satisfied the implementation-level
+identity
+\[
+|V_2|-|V_1|+|V_0|=2.
+\]
+Across this real-image experiment, the intrinsic construction processed
+a total of 18952116 image-region generators and
+3527723 cut generators.
+
+The prediction task is benign versus malignant histology. We use
+regularized logistic regression with class-balanced training weights.
+Continuous descriptors are standardized from the training data only.
+The regularization parameter is selected by grouped inner
+cross-validation. The outer evaluation uses
+5-fold stratified group cross-validation repeated
+5 times, with patient identity as the grouping variable;
+consequently, images from one patient never occur simultaneously in
+training and test sets.
+
+Repeated out-of-fold probabilities are averaged per image before the
+final metrics are computed. Uncertainty is estimated by
+2000 patient-level bootstrap resamples.
+
+\input{table_hig_class_statistics.tex}
+
+\input{table_predictive_performance.tex}
+
+The full HIG obtains a cross-fitted ROC--AUC of
+0.717
+(95\% CI [0.615, 0.810]).
+For comparison, the RAG obtains
+0.722
+(95\% CI [0.644, 0.802]).
+The paired full-HIG minus RAG difference is
+-0.005
+(95\% CI [-0.036,
++0.028]).
+
+The ablation comparisons are reported in
+Table~\ref{tab:paired-auc}. The contact-multigraph minus RAG difference
+is +0.007
+(95\% CI [-0.009,
++0.028]); the full-HIG minus
+HIG-without-cuts difference is +0.001
+(95\% CI [-0.012,
++0.014]); and the full-HIG minus
+binary-incidence-HIG difference is -0.004
+(95\% CI [-0.011,
++0.005]).
+These paired comparisons are interpreted as representation-level
+ablations rather than as tests of the intrinsic mathematical correctness
+of the HIG.
+
+\input{table_paired_auc.tex}
