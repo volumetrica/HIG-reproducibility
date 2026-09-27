@@ -1,0 +1,9 @@
+<PARSED TEXT FOR SHEET: 1 / 1 TABS
+TAB NAME: HIG_real_metadata_template.csv>
+index,sample_id,image_path,label,group,variant,segmentation_path
+0,S001,/content/data/S001_original.png,0,P001,original,/content/segmentations/S001.png
+1,S001,/content/data/S001_quasi_closing.png,0,P001,quasi-closing,/content/segmentations/S001_quasi_closing.png
+2,S001,/content/data/S001_quasi_opening.png,0,P001,quasi-opening,/content/segmentations/S001_quasi_opening.png
+3,S001,/content/data/S001_contrasted.png,0,P001,contrasted,/content/segmentations/S001_contrasted.png
+4,S001,/content/data/S001_flat.png,0,P001,flat,/content/segmentations/S001_flat.png
+5,S002,/content/data/S002_original.png,1,P002,original,/content/segmentations/S002.png
