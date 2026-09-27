@@ -1,0 +1,21 @@
+name: smoke-test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Intrinsic HIG smoke test
+        run: python scripts/smoke_test.py
+      - name: Verify committed reference summaries
+        run: python scripts/verify_reference_results.py
